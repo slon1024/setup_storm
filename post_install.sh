@@ -83,15 +83,19 @@ popd
 
 
 ### ZeroMQ ###
-download "http://download.zeromq.org/zeromq-${ZEROMQ_VERSION}.tar.gz"
-uncompress "zeromq-${ZEROMQ_VERSION}.tar.gz" 
+if [ -d "zeromq-${ZEROMQ_VERSION}" ]
+then
+  echo "ZeroMQ currently is installed"
+else
+  download "http://download.zeromq.org/zeromq-${ZEROMQ_VERSION}.tar.gz"
+  uncompress "zeromq-${ZEROMQ_VERSION}.tar.gz" 
 
-pushd "zeromq-${ZEROMQ_VERSION}"
-./configure
-make
-sudo make install
-popd
-
+  pushd "zeromq-${ZEROMQ_VERSION}"
+  ./configure
+  make
+  sudo make install
+  popd
+fi
 
 ### jzmq ###
 if [ -d jzmq ]
