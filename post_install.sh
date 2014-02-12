@@ -4,6 +4,11 @@ ZOOKEEPER_VERSION=3.4.5
 ZEROMQ_VERSION=4.0.3
 STORM_VERSION=0.9.0.1
 
+NIMBUS=nimbus1
+SUPERVISORS=(supervisor1 supervisor2 supervisor3)
+ZOOKEEPERS=(zookeeper1 zookeeper2 zookeeper3)
+
+
 create_dir(){
   PATH_TO_FILE=$1
   [ -d $PATH_TO_FILE ] || mkdir $PATH_TO_FILE
@@ -66,6 +71,13 @@ append_to_file "clientPort=2181" "conf/zoo.cfg"
 append_to_file "dataDir=$(pwd)/data" "conf/zoo.cfg"
 append_to_file "autopurge.purgeInterval=24" "conf/zoo.cfg"
 append_to_file "autopurge.snapRetainCount=5" "conf/zoo.cfg"
+
+
+for item in ${ZOOKEEPERS[*]}
+do
+  append_to_line "127.0.0.1 $item" "/etc/hosts"
+done
+
 popd
 
 
@@ -94,6 +106,34 @@ popd
 ### Storm ###
 download "https://dl.dropboxusercontent.com/s/tqdpoif32gufapo/storm-${STORM_VERSION}.tar.gz"
 uncompress "storm-${STORM_VERSION}.tar.gz"
+
+pushd "storm-${STORM_VERSION}"
+
+LOCAL_DIR=local_dir
+create_dir $LOCAL_DIR
+
+append_to_line "storm.zookeeper.servers:" "conf/storm.yaml"
+for item in ${ZOOKEEPERS[*]}
+do
+  append_to_line "  - \"$item\"" "conf/storm.yaml"
+done
+
+append_to_line "nimbus.host: \"${NIMBUS}\"" "conf/storm.yaml"
+append_to_line 'nimbus.childopts: "-Xmx1024m -Djava.net.preferIPv4Stack=true"' "conf/storm.yaml"
+
+append_to_line 'ui.port: 8181' "conf/storm.yaml"
+append_to_line 'ui.childopts: "-Xmx768m -Djava.net.preferIPv4Stack=true"' "conf/storm.yaml"
+
+append_to_line 'supervisor.childopts: "-Djava.net.preferIPv4Stack=true"' "conf/storm.yaml"
+append_to_line 'worker.childopts: "-Xmx768m -Djava.net.preferIPv4Stack=true"' "conf/storm.yaml"
+
+append_to_line "storm.local.dir: \"$(pwd)/$LOCAL_DIR\"" "conf/storm.yaml"
+
+for item in ${SUPERVISORS[*]}
+do
+  append_to_line "127.0.0.1 $item" "/etc/hosts"
+done
+popd
 
 rm *.tar.gz
 popd
