@@ -1,6 +1,8 @@
 #!/bin/bash
 
 ZOOKEEPER_VERSION=3.4.5
+ZEROMQ_VERSION=4.0.3
+
 
 create_dir(){
   PATH_TO_FILE=$1
@@ -43,4 +45,16 @@ append_to_file "clientPort=2181" "conf/zoo.cfg"
 append_to_file "dataDir=$(pwd)/data" "conf/zoo.cfg"
 append_to_file "autopurge.purgeInterval=24" "conf/zoo.cfg"
 append_to_file "autopurge.snapRetainCount=5" "conf/zoo.cfg"
+popd
+
+
+
+### ZeroMQ ###
+download "http://download.zeromq.org/zeromq-${ZEROMQ_VERSION}.tar.gz"
+uncompress "zeromq-${ZEROMQ_VERSION}.tar.gz" 
+
+pushd "zeromq-${ZEROMQ_VERSION}"
+./configure
+make
+sudo make install
 popd
