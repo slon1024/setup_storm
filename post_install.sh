@@ -39,7 +39,7 @@ sudo aptitude install -y  build-essential gcc g++ uuid-dev libtool git pkg-confi
 ### Install Java ###
 if [ -x "/usr/bin/java" ]
 then
-  java -version
+  echo "Java currently is installed"
 else
   sudo add-apt-repository -y ppa:webupd8team/java
   sudo apt-get update -y
