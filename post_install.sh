@@ -94,15 +94,19 @@ popd
 
 
 ### jzmq ###
-[ -d jzmq ] || git clone https://github.com/nathanmarz/jzmq.git
-pushd jzmq
-sed -i 's/classdist_noinst.stamp/classnoinst.stamp/g' src/Makefile.am
-./autogen.sh
-./configure
-make
-sudo make install
-popd
-
+if [ -d jzmq ]
+then
+  echo "jzmq currently is installed"
+else
+  git clone https://github.com/nathanmarz/jzmq.git
+  pushd jzmq
+  sed -i 's/classdist_noinst.stamp/classnoinst.stamp/g' src/Makefile.am
+  ./autogen.sh
+  ./configure
+  make
+  sudo make install
+  popd
+fi
 
 ### Storm ###
 download "https://dl.dropboxusercontent.com/s/tqdpoif32gufapo/storm-${STORM_VERSION}.tar.gz"
