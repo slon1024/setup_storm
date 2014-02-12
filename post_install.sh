@@ -130,11 +130,13 @@ append_to_file 'worker.childopts: "-Xmx768m -Djava.net.preferIPv4Stack=true"' "c
 
 append_to_file "storm.local.dir: \"$(pwd)/$LOCAL_DIR\"" "conf/storm.yaml"
 
+
+append_to_file "127.0.0.1 $NIMBUS" "/etc/hosts"
 for item in ${SUPERVISORS[*]}
 do
   append_to_file "127.0.0.1 $item" "/etc/hosts"
 done
 popd
 
-rm *.tar.gz
+rm -f *.tar.gz
 popd
