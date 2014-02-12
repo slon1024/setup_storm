@@ -86,9 +86,12 @@ else
   done
 
   popd
+  sudo mkdir -p "$LIB_PATH/zookeeper"
   sudo mv $DIR_ZOOKEEPER "$LIB_PATH/zookeeper/${DIR_ZOOKEEPER}"
   append_to_file "ZOOKEEPER_HOME=\"$LIB_PATH/zookeeper/$DIR_ZOOKEEPER\"" "/etc/profile"
   append_to_file 'PATH=$PATH:$ZOOKEEPER_HOME/bin' "/etc/profile"
+  append_to_file 'export ZOOKEEPER_HOME' '/etc/profile'
+  append_to_file 'export PATH' "/etc/profile"
 
   . /etc/profile
 fi
