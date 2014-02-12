@@ -79,3 +79,17 @@ pushd "zeromq-${ZEROMQ_VERSION}"
 make
 sudo make install
 popd
+
+
+### jzmq ###
+[ -d jzmq ] || git clone https://github.com/nathanmarz/jzmq.git
+pushd jzmq
+sed -i 's/classdist_noinst.stamp/classnoinst.stamp/g' src/Makefile.am
+./autogen.sh
+./configure
+make
+sudo make install
+popd
+
+
+
