@@ -28,8 +28,29 @@ append_to_file() {
 }
 
 
-
 sudo aptitude install -y  build-essential gcc g++ uuid-dev libtool git pkg-config autoconf
+
+### Install Java ###
+#if [ java -version ]
+append_to_file "deb http://ppa.launchpad.net/webupd9team/java/ubuntu precise main" "/etc/apt/sources.list"
+append_to_file "deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu precise main" "/etc/apt/sources.list"
+
+if [ -x $(which java) ]
+then
+  java -version
+else
+  sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys EEA14886
+  sudo apt-get update -y
+  sudo aptitude install -y oracle-java7-installer
+fi
+
+append_to_file 'JAVA_HOME=/usr/lib/jvm/java-7-oracle' "/etc/profile"
+append_to_file 'PATH=$PATH:$HOME/bin:$JAVA_HOME/bin' "/etc/profile"
+append_to_file 'export JAVA_HOME' "/etc/profile"
+append_to_file 'export PATH' "/etc/profile"
+. /etc/profile
+
+
 
 create_dir tools
 pushd tools
