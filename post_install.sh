@@ -8,6 +8,7 @@ NIMBUS=nimbus1
 SUPERVISORS=(supervisor1 supervisor2 supervisor3)
 ZOOKEEPERS=(zookeeper1 zookeeper2 zookeeper3)
 
+LIB_PATH='/usr/lib'
 
 create_dir(){
   PATH_TO_FILE=$1
@@ -62,7 +63,8 @@ create_dir tools
 pushd tools
 
 ### ZooKeeper ###
-if [ -d "zookeeper-${ZOOKEEPER_VERSION}" ]
+DIR_ZOOKEEPER="zookeeper-${ZOOKEEPER_VERSION}"
+if [ -d "$LIB_PATH/zookeeper/${DIR_ZOOKEEPER}" ]
 then
   echo -e "\e[32mZookeeper currently is installed\e[0m"
 else
@@ -84,6 +86,11 @@ else
   done
 
   popd
+  sudo mv $DIR_ZOOKEEPER "$LIB_PATH/zookeeper/${DIR_ZOOKEEPER}"
+  append_to_file "ZOOKEEPER_HOME=\"$LIB_PATH/zookeeper/$DIR_ZOOKEEPER\"" "/etc/profile"
+  append_to_file 'PATH=$PATH:$ZOOKEEPER_HOME/bin' "/etc/profile"
+
+  . /etc/profile
 fi
 
 ### ZeroMQ ###
