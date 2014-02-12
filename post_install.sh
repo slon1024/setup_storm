@@ -63,8 +63,8 @@ create_dir tools
 pushd tools
 
 ### ZooKeeper ###
-DIR_ZOOKEEPER="zookeeper-${ZOOKEEPER_VERSION}"
-if [ -d "$LIB_PATH/zookeeper/${DIR_ZOOKEEPER}" ]
+ZOOKEEPER_DIR_NAME="zookeeper-${ZOOKEEPER_VERSION}"
+if [ -d "$LIB_PATH/zookeeper/${ZOOKEEPER_DIR_NAME}" ]
 then
   echo -e "\e[32mZookeeper currently is installed\e[0m"
 else
@@ -87,8 +87,8 @@ else
 
   popd
   sudo mkdir -p "$LIB_PATH/zookeeper"
-  sudo mv $DIR_ZOOKEEPER "$LIB_PATH/zookeeper/${DIR_ZOOKEEPER}"
-  append_to_file "ZOOKEEPER_HOME=\"$LIB_PATH/zookeeper/$DIR_ZOOKEEPER\"" "/etc/profile"
+  sudo mv $ZOOKEEPER_DIR_NAME "$LIB_PATH/zookeeper/${ZOOKEEPER_DIR_NAME}"
+  append_to_file "ZOOKEEPER_HOME=\"$LIB_PATH/zookeeper/$ZOOKEEPER_DIR_NAME\"" "/etc/profile"
   append_to_file 'PATH=$PATH:$ZOOKEEPER_HOME/bin' "/etc/profile"
   append_to_file 'export ZOOKEEPER_HOME' '/etc/profile'
   append_to_file 'export PATH' "/etc/profile"
