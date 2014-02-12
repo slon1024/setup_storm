@@ -94,3 +94,6 @@ popd
 ### Storm ###
 download "https://dl.dropboxusercontent.com/s/tqdpoif32gufapo/storm-${STORM_VERSION}.tar.gz"
 uncompress "storm-${STORM_VERSION}.tar.gz"
+
+rm *.tar.gz
+popd
