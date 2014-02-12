@@ -39,7 +39,7 @@ sudo aptitude install -y  build-essential gcc g++ uuid-dev libtool git pkg-confi
 ### Install Java ###
 if [ -x "/usr/bin/java" ]
 then
-  echo "Java currently is installed"
+  echo -e "\e[32mJava currently is installed\e[0m"
 else
   sudo add-apt-repository -y ppa:webupd8team/java
   sudo apt-get update -y
@@ -64,7 +64,7 @@ pushd tools
 ### ZooKeeper ###
 if [ -d "zookeeper-${ZOOKEEPER_VERSION}" ]
 then
-  echo "Zookeeper currently is installed"
+  echo -e "\e[32mZookeeper currently is installed\e[0m"
 else
   download "http://ftp.piotrkosoft.net/pub/mirrors/ftp.apache.org/zookeeper/zookeeper-${ZOOKEEPER_VERSION}/zookeeper-${ZOOKEEPER_VERSION}.tar.gz"
   uncompress "zookeeper-${ZOOKEEPER_VERSION}.tar.gz"
@@ -89,10 +89,10 @@ fi
 ### ZeroMQ ###
 if [ -d "zeromq-${ZEROMQ_VERSION}" ]
 then
-  echo "ZeroMQ currently is installed"
+  echo -e "\e[32mZeroMQ currently is installed\e[0m"
 else
   download "http://download.zeromq.org/zeromq-${ZEROMQ_VERSION}.tar.gz"
-  uncompress "zeromq-${ZEROMQ_VERSION}.tar.gz" 
+  uncompress "zeromq-${ZEROMQ_VERSION}.tar.gz"
 
   pushd "zeromq-${ZEROMQ_VERSION}"
   ./configure
@@ -104,7 +104,7 @@ fi
 ### jzmq ###
 if [ -d jzmq ]
 then
-  echo "jzmq currently is installed"
+  echo -e "\e[32mjzmq currently is installed\e[0m"
 else
   git clone https://github.com/nathanmarz/jzmq.git
   pushd jzmq
@@ -119,7 +119,7 @@ fi
 ### Storm ###
 if [ -d "storm-${STORM_VERSION}" ]
 then
-  echo "Storm currently is installed"
+  echo -e "\e[32mStorm currently is installed\e[0m"
 else
   download "https://dl.dropboxusercontent.com/s/tqdpoif32gufapo/storm-${STORM_VERSION}.tar.gz"
   uncompress "storm-${STORM_VERSION}.tar.gz"
