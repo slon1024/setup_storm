@@ -16,7 +16,8 @@ create_dir(){
 
 download() {
   URI=$1
-  [ -f  $(basename $URI) ] || wget $URI
+  BASE_NAME=$(basename $URI)
+  [ -d  ${BASE_NAME%*.tar.gz} ] || wget $URI
 }
 
 uncompress() {
