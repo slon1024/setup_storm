@@ -117,38 +117,43 @@ else
 fi
 
 ### Storm ###
-download "https://dl.dropboxusercontent.com/s/tqdpoif32gufapo/storm-${STORM_VERSION}.tar.gz"
-uncompress "storm-${STORM_VERSION}.tar.gz"
+if [ -d "storm-${STORM_VERSION}" ]
+then
+  echo "Storm currently is installed"
+else
+  download "https://dl.dropboxusercontent.com/s/tqdpoif32gufapo/storm-${STORM_VERSION}.tar.gz"
+  uncompress "storm-${STORM_VERSION}.tar.gz"
 
-pushd "storm-${STORM_VERSION}"
+  pushd "storm-${STORM_VERSION}"
 
-LOCAL_DIR=local_dir
-create_dir $LOCAL_DIR
+  LOCAL_DIR=local_dir
+  create_dir $LOCAL_DIR
 
-append_to_file "storm.zookeeper.servers:" "conf/storm.yaml"
-for item in ${ZOOKEEPERS[*]}
-do
-  append_to_file "  - \"$item\"" "conf/storm.yaml"
-done
+  append_to_file "storm.zookeeper.servers:" "conf/storm.yaml"
+  for item in ${ZOOKEEPERS[*]}
+  do
+    append_to_file "  - \"$item\"" "conf/storm.yaml"
+  done
 
-append_to_file "nimbus.host: \"${NIMBUS}\"" "conf/storm.yaml"
-append_to_file 'nimbus.childopts: "-Xmx1024m -Djava.net.preferIPv4Stack=true"' "conf/storm.yaml"
+  append_to_file "nimbus.host: \"${NIMBUS}\"" "conf/storm.yaml"
+  append_to_file 'nimbus.childopts: "-Xmx1024m -Djava.net.preferIPv4Stack=true"' "conf/storm.yaml"
 
-append_to_file 'ui.port: 8181' "conf/storm.yaml"
-append_to_file 'ui.childopts: "-Xmx768m -Djava.net.preferIPv4Stack=true"' "conf/storm.yaml"
+  append_to_file 'ui.port: 8181' "conf/storm.yaml"
+  append_to_file 'ui.childopts: "-Xmx768m -Djava.net.preferIPv4Stack=true"' "conf/storm.yaml"
 
-append_to_file 'supervisor.childopts: "-Djava.net.preferIPv4Stack=true"' "conf/storm.yaml"
-append_to_file 'worker.childopts: "-Xmx768m -Djava.net.preferIPv4Stack=true"' "conf/storm.yaml"
+  append_to_file 'supervisor.childopts: "-Djava.net.preferIPv4Stack=true"' "conf/storm.yaml"
+  append_to_file 'worker.childopts: "-Xmx768m -Djava.net.preferIPv4Stack=true"' "conf/storm.yaml"
 
-append_to_file "storm.local.dir: \"$(pwd)/$LOCAL_DIR\"" "conf/storm.yaml"
+  append_to_file "storm.local.dir: \"$(pwd)/$LOCAL_DIR\"" "conf/storm.yaml"
 
+  append_to_file "127.0.0.1 $NIMBUS" "/etc/hosts"
+  for item in ${SUPERVISORS[*]}
+  do
+    append_to_file "127.0.0.1 $item" "/etc/hosts"
+  done
 
-append_to_file "127.0.0.1 $NIMBUS" "/etc/hosts"
-for item in ${SUPERVISORS[*]}
-do
-  append_to_file "127.0.0.1 $item" "/etc/hosts"
-done
-popd
+  popd
+fi
 
 rm -f *.tar.gz
 popd
