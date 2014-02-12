@@ -23,7 +23,7 @@ vagrant ssh
 
 ## Run poinstall script
 ```sh
-wget https://raw2.github.com/slon1024/setup_storm/master/postinstall.sh
+wget https://raw2.github.com/slon1024/setup_storm/master/post_install.sh
 source postinstall.sh 
 ```
 
