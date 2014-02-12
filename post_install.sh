@@ -62,25 +62,29 @@ create_dir tools
 pushd tools
 
 ### ZooKeeper ###
-download "http://ftp.piotrkosoft.net/pub/mirrors/ftp.apache.org/zookeeper/zookeeper-${ZOOKEEPER_VERSION}/zookeeper-${ZOOKEEPER_VERSION}.tar.gz"
-uncompress "zookeeper-${ZOOKEEPER_VERSION}.tar.gz"
+if [ -d "zookeeper-${ZOOKEEPER_VERSION}" ]
+then
+  echo "Zookeeper currently is installed"
+else
+  download "http://ftp.piotrkosoft.net/pub/mirrors/ftp.apache.org/zookeeper/zookeeper-${ZOOKEEPER_VERSION}/zookeeper-${ZOOKEEPER_VERSION}.tar.gz"
+  uncompress "zookeeper-${ZOOKEEPER_VERSION}.tar.gz"
 
-pushd "zookeeper-${ZOOKEEPER_VERSION}"
-create_dir data
-append_to_file "tickTime=2000" "conf/zoo.cfg"
-append_to_file "clientPort=2181" "conf/zoo.cfg"
-append_to_file "dataDir=$(pwd)/data" "conf/zoo.cfg"
-append_to_file "autopurge.purgeInterval=24" "conf/zoo.cfg"
-append_to_file "autopurge.snapRetainCount=5" "conf/zoo.cfg"
+  pushd "zookeeper-${ZOOKEEPER_VERSION}"
+  create_dir data
+  append_to_file "tickTime=2000" "conf/zoo.cfg"
+  append_to_file "clientPort=2181" "conf/zoo.cfg"
+  append_to_file "dataDir=$(pwd)/data" "conf/zoo.cfg"
+  append_to_file "autopurge.purgeInterval=24" "conf/zoo.cfg"
+  append_to_file "autopurge.snapRetainCount=5" "conf/zoo.cfg"
 
 
-for item in ${ZOOKEEPERS[*]}
-do
-  append_to_file "127.0.0.1 $item" "/etc/hosts"
-done
+  for item in ${ZOOKEEPERS[*]}
+  do
+    append_to_file "127.0.0.1 $item" "/etc/hosts"
+  done
 
-popd
-
+  popd
+fi
 
 ### ZeroMQ ###
 if [ -d "zeromq-${ZEROMQ_VERSION}" ]
