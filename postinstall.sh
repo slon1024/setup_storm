@@ -24,24 +24,22 @@ append_to_file() {
   PATH_TO_FILE=$2
 
   [ -f $PATH_TO_FILE ] || touch  $PATH_TO_FILE
-  grep -q "${LINE}" ${PATH_TO_FILE} || echo ${LINE} >> ${PATH_TO_FILE}
+  grep -q "${LINE}" ${PATH_TO_FILE} || echo ${LINE} | sudo tee -a ${PATH_TO_FILE}
 }
 
 
 sudo aptitude install -y  build-essential gcc g++ uuid-dev libtool git pkg-config autoconf
 
 ### Install Java ###
-#if [ java -version ]
-append_to_file "deb http://ppa.launchpad.net/webupd9team/java/ubuntu precise main" "/etc/apt/sources.list"
-append_to_file "deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu precise main" "/etc/apt/sources.list"
-
-if [ -x $(which java) ]
+if [ -x "/usr/bin/java" ]
 then
   java -version
 else
-  sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys EEA14886
+  sudo add-apt-repository -y ppa:webupd8team/java
   sudo apt-get update -y
   sudo aptitude install -y oracle-java7-installer
+  sudo update-java-alternatives -s java-7-oracle
+  sudo apt-get install oracle-java7-set-default
 fi
 
 append_to_file 'JAVA_HOME=/usr/lib/jvm/java-7-oracle' "/etc/profile"
