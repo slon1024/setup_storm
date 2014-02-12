@@ -37,6 +37,8 @@ then
 else
   sudo add-apt-repository -y ppa:webupd8team/java
   sudo apt-get update -y
+  echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
+  echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo debconf-set-selections
   sudo aptitude install -y oracle-java7-installer
   sudo update-java-alternatives -s java-7-oracle
   sudo apt-get install oracle-java7-set-default
