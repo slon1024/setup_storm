@@ -69,7 +69,8 @@ pushd tools
 
 ### ZooKeeper ###
 ZOOKEEPER_DIR_NAME="zookeeper-${ZOOKEEPER_VERSION}"
-if [ -d "$LIB_PATH/zookeeper/${ZOOKEEPER_DIR_NAME}" ]
+ZOOKEEPER_LIB_PATH="$LIB_PATH/zookeeper/${ZOOKEEPER_DIR_NAME}"
+if [ -d "$ZOOKEEPER_LIB_PATH" ]
 then
   echo -e "\e[32mZookeeper currently is installed\e[0m"
 else
@@ -92,9 +93,9 @@ else
 
   popd
   sudo mkdir -p "$LIB_PATH/zookeeper"
-  sudo mv $ZOOKEEPER_DIR_NAME "$LIB_PATH/zookeeper/${ZOOKEEPER_DIR_NAME}"
+  sudo mv $ZOOKEEPER_DIR_NAME "$ZOOKEEPER_LIB_PATH"
 
-  add_var_to_path 'ZOOKEEPER_HOME' "$LIB_PATH/zookeeper/$ZOOKEEPER_DIR_NAME"
+  add_var_to_path 'ZOOKEEPER_HOME' "$ZOOKEEPER_LIB_PATH"
 fi
 
 ### ZeroMQ ###
