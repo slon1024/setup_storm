@@ -34,6 +34,17 @@ append_to_file() {
   grep -q "${LINE}" ${PATH_TO_FILE} || echo ${LINE} | sudo tee -a ${PATH_TO_FILE}
 }
 
+add_var_to_path() {
+  VAR_NAME=$1
+  VAR_VAL=$2
+
+  append_to_file "$VAR_NAME=$VAR_VAL" "/etc/profile"
+  append_to_file "PATH=\$PATH:\$${VAR_NAME}/bin" "/etc/profile"
+  append_to_file "export $VAR_NAME" "/etc/profile"
+  append_to_file 'export PATH' "/etc/profile"
+
+  . /etc/profile
+}
 
 sudo aptitude install -y  build-essential gcc g++ uuid-dev libtool git pkg-config autoconf
 
@@ -51,13 +62,7 @@ else
   sudo apt-get install oracle-java7-set-default
 fi
 
-append_to_file 'JAVA_HOME=/usr/lib/jvm/java-7-oracle' "/etc/profile"
-append_to_file 'PATH=$PATH:$HOME/bin:$JAVA_HOME/bin' "/etc/profile"
-append_to_file 'export JAVA_HOME' "/etc/profile"
-append_to_file 'export PATH' "/etc/profile"
-. /etc/profile
-
-
+add_var_to_path 'JAVA_HOME' '/usr/lib/jvm/java-7-oracle'
 
 create_dir tools
 pushd tools
@@ -88,12 +93,8 @@ else
   popd
   sudo mkdir -p "$LIB_PATH/zookeeper"
   sudo mv $ZOOKEEPER_DIR_NAME "$LIB_PATH/zookeeper/${ZOOKEEPER_DIR_NAME}"
-  append_to_file "ZOOKEEPER_HOME=\"$LIB_PATH/zookeeper/$ZOOKEEPER_DIR_NAME\"" "/etc/profile"
-  append_to_file 'PATH=$PATH:$ZOOKEEPER_HOME/bin' "/etc/profile"
-  append_to_file 'export ZOOKEEPER_HOME' '/etc/profile'
-  append_to_file 'export PATH' "/etc/profile"
 
-  . /etc/profile
+  add_var_to_path 'ZOOKEEPER_HOME' "$LIB_PATH/zookeeper/$ZOOKEEPER_DIR_NAME"
 fi
 
 ### ZeroMQ ###
@@ -127,7 +128,9 @@ else
 fi
 
 ### Storm ###
-if [ -d "storm-${STORM_VERSION}" ]
+STORM_DIR_NAME="storm-$STORM_VERSION"
+STORM_LIB_PATH="$LIB_PATH/storm/${STORM_DIR_NAME}"
+if [ -d $STORM_LIB_PATH ]
 then
   echo -e "\e[32mStorm currently is installed\e[0m"
 else
@@ -163,6 +166,10 @@ else
   done
 
   popd
+
+  sudo mkdir -p "$LIB_PATH/storm"
+  sudo mv $STORM_DIR_NAME "$STORM_LIB_PATH"
+  add_var_to_path 'STORM_HOME' "$STORM_LIB_PATH"
 fi
 
 rm -f *.tar.gz
