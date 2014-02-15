@@ -173,5 +173,8 @@ else
   add_var_to_path 'STORM_HOME' "$STORM_LIB_PATH"
 fi
 
+### Maven ###
+sudo aptitude install maven2
+
 rm -f *.tar.gz
 popd
