@@ -184,7 +184,7 @@ then
 else
   pushd /usr/bin
   sudo wget https://raw.github.com/technomancy/leiningen/stable/bin/lein
-  sudo chmod u+x lein
+  sudo chmod +x lein
   sudo ./lein
   popd
 fi
