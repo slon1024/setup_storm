@@ -176,13 +176,18 @@ fi
 ### Maven ###
 sudo aptitude install -y maven2
 
-### Install lein ###
-pushd /usr/bin
-sudo wget https://raw.github.com/technomancy/leiningen/stable/bin/lein
-sudo chmod u+x lein
-sudo ./lein
-popd
-
+### Lein ###
+LEIN_BIN_PATH=/usr/bin/lein
+if [ -x $LEIN_BIN_PATH ]
+then
+  echo -e "\e[32mLein currently is installed\e[0m"
+else
+  pushd /usr/bin
+  sudo wget https://raw.github.com/technomancy/leiningen/stable/bin/lein
+  sudo chmod u+x lein
+  sudo ./lein
+  popd
+fi
 
 rm -f *.tar.gz
 popd
