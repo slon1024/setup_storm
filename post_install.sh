@@ -176,5 +176,13 @@ fi
 ### Maven ###
 sudo aptitude install -y maven2
 
+### Install lein ###
+pushd /usr/bin
+sudo wget https://raw.github.com/technomancy/leiningen/stable/bin/lein
+sudo chmod u+x lein
+sudo ./lein
+popd
+
+
 rm -f *.tar.gz
 popd
