@@ -190,10 +190,14 @@ else
 fi
 
 ### storm-deploy ###
-git clone git://github.com/nathanmarz/storm-deploy.git
-pushd storm-deploy
-lein deps
-popd
-
+if [ -d "tools/storm-deploy"]
+then
+  echo -e "\e[32mstorm-deploy currently is installed\e[0m"
+else
+  git clone git://github.com/nathanmarz/storm-deploy.git
+  pushd storm-deploy
+  lein deps
+  popd
+fi
 rm -f *.tar.gz
 popd
