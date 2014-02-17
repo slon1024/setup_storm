@@ -174,7 +174,7 @@ else
 fi
 
 ### Maven ###
-sudo aptitude install maven2
+sudo aptitude install -y maven2
 
 rm -f *.tar.gz
 popd
