@@ -196,4 +196,4 @@ lein deps
 popd
 
 rm -f *.tar.gz
-ipopd
+popd
