@@ -189,5 +189,11 @@ else
   popd
 fi
 
-rm -f *.tar.gz
+### storm-deploy ###
+git clone git://github.com/nathanmarz/storm-deploy.git
+pushd storm-deploy
+lein deps
 popd
+
+rm -f *.tar.gz
+ipopd
