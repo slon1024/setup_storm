@@ -74,10 +74,17 @@ if [ -d "$ZOOKEEPER_LIB_PATH" ]
 then
   echo -e "\e[32mZookeeper currently is installed\e[0m"
 else
-  download "http://ftp.piotrkosoft.net/pub/mirrors/ftp.apache.org/zookeeper/zookeeper-${ZOOKEEPER_VERSION}/zookeeper-${ZOOKEEPER_VERSION}.tar.gz"
-  uncompress "zookeeper-${ZOOKEEPER_VERSION}.tar.gz"
+  #http://ftp.piotrkosoft.net/pub/mirrors/ftp.apache.org
+  ZOOKEEPER_URI="http://ftp.task.gda.pl/pub/www/apache/dist/zookeeper/zookeeper-${ZOOKEEPER_VERSION}/zookeeper-${ZOOKEEPER_VERSION}.tar.gz"
+  download $ZOOKEEPER_URI
 
-  pushd "zookeeper-${ZOOKEEPER_VERSION}"
+  if [ ! -f "zookeeper-${ZOOKEEPER_VERSION}.tar.gz" ]; then
+    echo -e "\e[31mProblem with download $ZOOKEEPER_URI\e[0m"
+    exit
+  fi
+
+  uncompress "zookeeper-${ZOOKEEPER_VERSION}.tar.gz"
+  pushd "${ZOOKEEPER_DIR_NAME}"
   create_dir data
   append_to_file "tickTime=2000" "conf/zoo.cfg"
   append_to_file "clientPort=2181" "conf/zoo.cfg"
@@ -85,32 +92,16 @@ else
   append_to_file "autopurge.purgeInterval=24" "conf/zoo.cfg"
   append_to_file "autopurge.snapRetainCount=5" "conf/zoo.cfg"
 
-
   for item in ${ZOOKEEPERS[*]}
   do
     append_to_file "127.0.0.1 $item" "/etc/hosts"
   done
-
-  popd
+   
+  popd  
   sudo mkdir -p "$LIB_PATH/zookeeper"
   sudo mv $ZOOKEEPER_DIR_NAME "$ZOOKEEPER_LIB_PATH"
-
-  add_var_to_path 'ZOOKEEPER_HOME' "$ZOOKEEPER_LIB_PATH"
-fi
-
-### ZeroMQ ###
-if [ -d "zeromq-${ZEROMQ_VERSION}" ]
-then
-  echo -e "\e[32mZeroMQ currently is installed\e[0m"
-else
-  download "http://download.zeromq.org/zeromq-${ZEROMQ_VERSION}.tar.gz"
-  uncompress "zeromq-${ZEROMQ_VERSION}.tar.gz"
-
-  pushd "zeromq-${ZEROMQ_VERSION}"
-  ./configure
-  make
-  sudo make install
-  popd
+  add_var_to_path 'ZOOKEEPER_HOME' "$ZOOKEEPER_LIB_PATH" 
+  echo -e "\e[32mzookeeper-${ZOOKEEPER_VERSION} installing succeed\e[0m"
 fi
 
 ### jzmq ###
