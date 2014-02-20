@@ -202,8 +202,7 @@ fi
 sudo aptitude install -y maven
 
 ### RVM ###
-if [ -d ~/.rvm ]
-then
+if [ -d ~/.rvm ]; then
   echo -e "\e[32mrvm currently is installed\e[0m"
 else
   \curl -sSL https://get.rvm.io | bash -s stable
@@ -214,6 +213,9 @@ else
   source ~/.rvm/scripts/rvm
   echo -e "\e[32mrvm installing succeed\e[0m"
 fi
+
+### RedStorm ###
+sudo gem install redstorm
 
 ### Lein ###
 LEIN_BIN_PATH=/usr/bin/lein
