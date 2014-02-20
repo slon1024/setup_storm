@@ -224,10 +224,19 @@ if [ -d "storm-deploy"]
 then
   echo -e "\e[32mstorm-deploy currently is installed\e[0m"
 else
-  git clone git://github.com/nathanmarz/storm-deploy.git
-  pushd storm-deploy
+  STORMDEPLOY_URI=git://github.com/nathanmarz/storm-deploy.git
+  STORMDEPLOY_DIR_NAME=storm-deploy
+  git clone 
+  if [ ! -d $STORMDEPLOY_DIR_NAME ]; then
+    echo -e "\e[31mProblem with download $STORMDEPLOY_URI\e[0m"
+    exit
+  fi
+  pushd $STORMDEPLOY_DIR_NAME
   lein deps
+  echo -e "\e[32mstorm-deploy installing succeed\e[0m"
   popd
 fi
+
+
 rm -f *.tar.gz
 popd
