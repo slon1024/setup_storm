@@ -128,11 +128,16 @@ else
 fi
 
 ### jzmq ###
-if [ -d jzmq ]
-then
+if [ -d jzmq ]; then
   echo -e "\e[32mjzmq currently is installed\e[0m"
 else
-  git clone https://github.com/nathanmarz/jzmq.git
+  JZMQ_URI=https://github.com/nathanmarz/jzmq.git
+  git clone $JZMQ_URI
+  if [ -d jzmq ]; then
+    echo -e "\e[31mProblem with download $JZMQ_URI\e[0m"
+    exit
+  fi
+  
   pushd jzmq
   sed -i 's/classdist_noinst.stamp/classnoinst.stamp/g' src/Makefile.am
   ./autogen.sh
@@ -140,6 +145,7 @@ else
   make
   sudo make install
   popd
+  echo -e "\e[32mjzmq installing succeed\e[0m"
 fi
 
 ### Storm ###
