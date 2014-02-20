@@ -201,6 +201,20 @@ fi
 ### Maven ###
 sudo aptitude install -y maven
 
+### RVM ###
+if [ -d ~/.rvm ]
+then
+  echo -e "\e[32mrvm currently is installed\e[0m"
+else
+  \curl -sSL https://get.rvm.io | bash -s stable
+  if [ ! -d ~/.rvm ]; then
+    echo -e "\e[31mProblem with download rvm\e[0m"
+    exit
+  fi
+  source ~/.rvm/scripts/rvm
+  echo -e "\e[32mrvm installing succeed\e[0m"
+fi
+
 ### Lein ###
 LEIN_BIN_PATH=/usr/bin/lein
 if [ -x $LEIN_BIN_PATH ]
