@@ -104,6 +104,29 @@ else
   echo -e "\e[32mzookeeper-${ZOOKEEPER_VERSION} installing succeed\e[0m"
 fi
 
+### ZeroMQ ###
+if [ -d "zeromq-${ZEROMQ_VERSION}" ]; then
+  echo -e "\e[32mZeroMQ currently is installed\e[0m"
+else
+  ZEROMQ_DIR_NAME="zeromq-${ZEROMQ_VERSION}"
+  ZEROMQ_URI="http://download.zeromq.org/${ZEROMQ_DIR_NAME}.tar.gz"
+  download $ZEROMQ_URI
+
+  if [ ! -f "${ZEROMQ_DIR_NAME}.tar.gz" ]; then
+    echo -e "\e[31mProblem with download $ZEROMQ_URI\e[0m"
+    exit
+  fi
+  
+  uncompress "${ZEROMQ_DIR_NAME}.tar.gz"
+
+  pushd "${ZEROMQ_DIR_NAME}"
+  ./configure
+  make
+  sudo make install
+  popd
+  echo -e "\e[32mzeromq-${ZEROMQ_VERSION} installing succeed\e[0m"
+fi
+
 ### jzmq ###
 if [ -d jzmq ]
 then
