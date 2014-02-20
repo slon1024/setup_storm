@@ -240,8 +240,7 @@ else
 fi
 
 ### storm-deploy ###
-if [ -d "storm-deploy"]
-then
+if [ -d "storm-deploy" ]; then
   echo -e "\e[32mstorm-deploy currently is installed\e[0m"
 else
   STORMDEPLOY_URI=git://github.com/nathanmarz/storm-deploy.git
