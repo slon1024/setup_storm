@@ -217,6 +217,7 @@ else
   sudo chmod +x lein
   ./lein
   popd
+  echo -e "\e[32mlein installing succeed\e[0m"
 fi
 
 ### storm-deploy ###
@@ -233,8 +234,8 @@ else
   fi
   pushd $STORMDEPLOY_DIR_NAME
   lein deps
-  echo -e "\e[32mstorm-deploy installing succeed\e[0m"
   popd
+  echo -e "\e[32mstorm-deploy installing succeed\e[0m"
 fi
 
 
