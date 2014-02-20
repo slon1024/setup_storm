@@ -208,9 +208,14 @@ then
   echo -e "\e[32mLein currently is installed\e[0m"
 else
   pushd /usr/bin
-  sudo wget https://raw.github.com/technomancy/leiningen/stable/bin/lein
+  LEIN_URI=https://raw.github.com/technomancy/leiningen/stable/bin/lein
+  sudo wget $LEIN_URI
+  if [ ! -f lein ]; then
+    echo -e "\e[31mProblem with download $LEIN_URI\e[0m"
+    exit
+  fi
   sudo chmod +x lein
-  sudo ./lein
+  ./lein
   popd
 fi
 
