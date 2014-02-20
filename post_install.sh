@@ -199,7 +199,7 @@ else
 fi
 
 ### Maven ###
-sudo aptitude install -y maven2
+sudo aptitude install -y maven
 
 ### Lein ###
 LEIN_BIN_PATH=/usr/bin/lein
