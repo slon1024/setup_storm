@@ -151,14 +151,18 @@ fi
 ### Storm ###
 STORM_DIR_NAME="storm-$STORM_VERSION"
 STORM_LIB_PATH="$LIB_PATH/storm/${STORM_DIR_NAME}"
-if [ -d $STORM_LIB_PATH ]
-then
+if [ -d $STORM_LIB_PATH ]; then
   echo -e "\e[32mStorm currently is installed\e[0m"
 else
-  download "https://dl.dropboxusercontent.com/s/tqdpoif32gufapo/storm-${STORM_VERSION}.tar.gz"
-  uncompress "storm-${STORM_VERSION}.tar.gz"
+  STORM_URI="https://dl.dropboxusercontent.com/s/tqdpoif32gufapo/${STORM_DIR_NAME}.tar.gz"
+  download $STORM_URI
+  if [ ! -f "${STORM_DIR_NAME}.tar.gz" ]; then
+    echo -e "\e[31mProblem with download $STORM_URI\e[0m"
+    exit
+  fi
+  uncompress "${STORM_DIR_NAME}.tar.gz"
 
-  pushd "storm-${STORM_VERSION}"
+  pushd "${STORM_DIR_NAME}"
 
   LOCAL_DIR=local_dir
   create_dir $LOCAL_DIR
@@ -191,6 +195,7 @@ else
   sudo mkdir -p "$LIB_PATH/storm"
   sudo mv $STORM_DIR_NAME "$STORM_LIB_PATH"
   add_var_to_path 'STORM_HOME' "$STORM_LIB_PATH"
+  echo -e "\e[32mstorm-${STORM_VERSION} installing succeed\e[0m"
 fi
 
 ### Maven ###
