@@ -214,6 +214,9 @@ else
   echo -e "\e[32mrvm installing succeed\e[0m"
 fi
 
+### JRuby ###
+rvm install jruby --1.9
+
 ### RedStorm ###
 sudo gem install redstorm
 
