@@ -49,8 +49,7 @@ add_var_to_path() {
 sudo aptitude install -y  build-essential gcc g++ uuid-dev libtool git pkg-config autoconf
 
 ### Install Java ###
-if [ -x "/usr/bin/java" ]
-then
+if [ -x "/usr/bin/java" ]; then
   echo -e "\e[32mJava currently is installed\e[0m"
 else
   sudo add-apt-repository -y ppa:webupd8team/java
@@ -60,9 +59,10 @@ else
   sudo aptitude install -y oracle-java7-installer
   sudo update-java-alternatives -s java-7-oracle
   sudo apt-get install oracle-java7-set-default
-fi
 
-add_var_to_path 'JAVA_HOME' '/usr/lib/jvm/java-7-oracle'
+  add_var_to_path 'JAVA_HOME' '/usr/lib/jvm/java-7-oracle'
+  echo -e "\e[32mjava7 installing succeed\e[0m"
+fi
 
 create_dir tools
 pushd tools
