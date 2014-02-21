@@ -243,7 +243,7 @@ if [ -d "storm-deploy" ]; then
 else
   STORMDEPLOY_URI=git://github.com/nathanmarz/storm-deploy.git
   STORMDEPLOY_DIR_NAME=storm-deploy
-  git clone 
+  git clone $STORMDEPLOY_URI
   if [ ! -d $STORMDEPLOY_DIR_NAME ]; then
     echo -e "\e[31mProblem with download $STORMDEPLOY_URI\e[0m"
     exit
