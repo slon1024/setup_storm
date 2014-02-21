@@ -3,6 +3,7 @@
 ZOOKEEPER_VERSION=3.4.5
 ZEROMQ_VERSION=4.0.3
 STORM_VERSION=0.9.0.1
+JRUBY_VERSION=1.7,9
 
 NIMBUS=nimbus1
 SUPERVISORS=(supervisor1 supervisor2 supervisor3)
@@ -201,21 +202,18 @@ fi
 ### Maven ###
 sudo aptitude install -y maven
 
-### RVM ###
-if [ -d ~/.rvm ]; then
-  echo -e "\e[32mrvm currently is installed\e[0m"
+### RBEVN ###
+if [ -d ~/.rbenv ]; then
+  echo -e "\e[32mrbenv currently is installed\e[0m"
 else
-  \curl -sSL https://get.rvm.io | bash -s stable
-  if [ ! -d ~/.rvm ]; then
-    echo -e "\e[31mProblem with download rvm\e[0m"
-    exit
-  fi
-  source ~/.rvm/scripts/rvm
-  echo -e "\e[32mrvm installing succeed\e[0m"
+  curl -L https://raw.github.com/fesplugas/rbenv-installer/master/bin/rbenv-installer | bash
+  append_to_file 'if [ -d $HOME/.rbenv ]; then export PATH="$HOME/.rbenv/bin:$PATH" eval "$(rbenv init -)" fi' '~/.bashrc'
+  . ~/.bashrc
 fi
 
-### JRuby ###
-rvm install jruby --1.9
+### JRUBY ###
+rbenv install jruby-${JRUBY_VERSION}
+rbenv global jruby-${JRUBY_VERSION}
 
 ### RedStorm ###
 sudo gem install redstorm
