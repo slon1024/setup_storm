@@ -4,6 +4,7 @@ ZOOKEEPER_VERSION=3.4.5
 ZEROMQ_VERSION=4.0.3
 STORM_VERSION=0.9.0.1
 JRUBY_VERSION=1.7.9
+KAFKA_VERSION=0.8.0
 
 NIMBUS=nimbus1
 SUPERVISORS=(supervisor1 supervisor2 supervisor3)
@@ -97,11 +98,11 @@ else
   do
     append_to_file "127.0.0.1 $item" "/etc/hosts"
   done
-   
-  popd  
+
+  popd
   sudo mkdir -p "$LIB_PATH/zookeeper"
   sudo mv $ZOOKEEPER_DIR_NAME "$ZOOKEEPER_LIB_PATH"
-  add_var_to_path 'ZOOKEEPER_HOME' "$ZOOKEEPER_LIB_PATH" 
+  add_var_to_path 'ZOOKEEPER_HOME' "$ZOOKEEPER_LIB_PATH"
   echo -e "\e[32mzookeeper-${ZOOKEEPER_VERSION} installing succeed\e[0m"
 fi
 
@@ -117,7 +118,7 @@ else
     echo -e "\e[31mProblem with download $ZEROMQ_URI\e[0m"
     exit
   fi
-  
+
   uncompress "${ZEROMQ_DIR_NAME}.tar.gz"
 
   pushd "${ZEROMQ_DIR_NAME}"
@@ -138,7 +139,7 @@ else
     echo -e "\e[31mProblem with download $JZMQ_URI\e[0m"
     exit
   fi
-  
+
   pushd jzmq
   sed -i 's/classdist_noinst.stamp/classnoinst.stamp/g' src/Makefile.am
   ./autogen.sh
@@ -211,7 +212,7 @@ else
   . ~/.bashrc
 fi
 
-### JRUBY ###
+### JRuby ###
 rbenv install jruby-${JRUBY_VERSION}
 rbenv global jruby-${JRUBY_VERSION}
 
@@ -254,6 +255,36 @@ else
   echo -e "\e[32mstorm-deploy installing succeed\e[0m"
 fi
 
+### Kafka ###
+KAFKA_DIR_NAME=kafka-${KAFKA_VERSION}-src
+KAFKA_LIB_PATH="$LIB_PATH/kafka/${KAFKA_DIR_NAME}"
+KAFKA_ARCH_EXT=tgz
+if [ -d "$KAFKA_LIB_PATH" ]
+then
+  echo -e "\e[32mKafka currently is installed\e[0m"
+else
+  KAFKA_URI=http://ftp.ps.pl/pub/apache/kafka/${KAFKA_VERSION}/${KAFKA_DIR_NAME}.${KAFKA_ARCH_EXT}
+  download $KAFKA_URI
+  if [ ! -f "${KAFKA_DIR_NAME}.tgz" ]; then
+    echo -e "\e[31mProblem with download $KAFKA_URI\e[0m"
+    exit
+  fi
+
+  uncompress ${KAFKA_DIR_NAME}.${KAFKA_ARCH_EXT}
+
+  pushd ${KAFKA_DIR_NAME}
+  ./sbt update
+  ./sbt package
+  ./sbt assembly-package-dependency
+  popd
+
+  sudo mkdir -p "$LIB_PATH/kafka"
+  sudo mv $KAFKA_DIR_NAME $KAFKA_LIB_PATH
+  add_var_to_path 'KAFKA_HOME' "$KAFKA_LIB_PATH"
+  echo -e "\e[32mkafka-${KAFKA_VERSION} installing succeed\e[0m"
+fi
+
 
 rm -f *.tar.gz
+rm -f *.tgz
 popd
