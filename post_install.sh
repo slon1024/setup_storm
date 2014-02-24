@@ -209,7 +209,7 @@ if [ -d ~/.rbenv ]; then
 else
   curl -L https://raw.github.com/fesplugas/rbenv-installer/master/bin/rbenv-installer | bash
   append_to_file 'export PATH="$HOME/.rbenv/bin:$PATH"' '~/.bashrc'
-  append_to_file 'eval "$(rbenv init -)' '~/.bashrc'
+  append_to_file 'eval "$(rbenv init -)"' '~/.bashrc'
   . ~/.bashrc
 fi
 
