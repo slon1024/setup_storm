@@ -294,3 +294,5 @@ fi
 rm -f *.tar.gz
 rm -f *.tgz
 popd
+
+. /etc/profile
