@@ -203,12 +203,13 @@ fi
 ### Maven ###
 sudo aptitude install -y maven
 
-### RBEVN ###
+### RbEnv ###
 if [ -d ~/.rbenv ]; then
   echo -e "\e[32mrbenv currently is installed\e[0m"
 else
   curl -L https://raw.github.com/fesplugas/rbenv-installer/master/bin/rbenv-installer | bash
-  append_to_file 'if [ -d $HOME/.rbenv ]; then export PATH="$HOME/.rbenv/bin:$PATH" eval "$(rbenv init -)" fi' '~/.bashrc'
+  append_to_file 'export PATH="$HOME/.rbenv/bin:$PATH"' '~/.bashrc'
+  append_to_file 'eval "$(rbenv init -)' '~/.bashrc'
   . ~/.bashrc
 fi
 
