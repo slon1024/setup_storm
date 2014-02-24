@@ -214,8 +214,12 @@ else
 fi
 
 ### JRuby ###
-rbenv install jruby-${JRUBY_VERSION}
-rbenv global jruby-${JRUBY_VERSION}
+if [ $(rbenv versions | grep jruby-${JRUBY_VERSION}) ]; then
+  echo -e "\e[32mjruby-${JRUBY_VERSION} currently is installed\e[0m"
+else
+  rbenv install jruby-${JRUBY_VERSION}
+  rbenv global jruby-${JRUBY_VERSION}
+fi
 
 
 ### Lein ###
