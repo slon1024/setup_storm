@@ -216,8 +216,6 @@ fi
 rbenv install jruby-${JRUBY_VERSION}
 rbenv global jruby-${JRUBY_VERSION}
 
-### RedStorm ###
-sudo gem install redstorm
 
 ### Lein ###
 LEIN_BIN_PATH=/usr/bin/lein
