@@ -279,6 +279,9 @@ else
   ./sbt update
   ./sbt package
   ./sbt assembly-package-dependency
+
+  sed -i 's/-Xmx1G -Xms1G/-Xmx200M -Xms200M/g' bin/kafka-server-start.sh
+  sed -i 's/ -XX:+UseCompressedOops//g' bin/kafka-run-class.sh
   popd
 
   sudo mkdir -p "$LIB_PATH/kafka"
