@@ -213,6 +213,11 @@ else
   append_to_file 'eval "$(rbenv init -)"' ~/.bashrc
 
   source ~/.bashrc
+
+  if [ ! $(which rbenv) ]; then
+    echo -e "\e[31mProblem with rbenv\e[0m"
+    exit
+  fi
 fi
 
 ### JRuby ###
