@@ -3,7 +3,7 @@
 ZOOKEEPER_VERSION=3.4.5
 ZEROMQ_VERSION=4.0.3
 STORM_VERSION=0.9.0.1
-JRUBY_VERSION=1.7.9
+JRUBY_VERSION=jruby-1.7.9
 RUBY_VERSION=2.1.0
 KAFKA_VERSION=0.8.0
 
@@ -222,21 +222,28 @@ else
 fi
 
 ### JRuby ###
-if [ $(rbenv versions | grep jruby-${JRUBY_VERSION}) ]; then
+if [ $(rbenv versions | grep ${JRUBY_VERSION}) ]; then
   echo -e "\e[32mjruby-${JRUBY_VERSION} currently is installed\e[0m"
 else
-  rbenv install jruby-${JRUBY_VERSION}
+  rbenv install ${JRUBY_VERSION}
   rbenv install ${RUBY_VERSION}
-  rbenv global jruby-${JRUBY_VERSION}
+  rbenv global ${JRUBY_VERSION}
 fi
 
 ### RedStorm ###
-if [ $(gem list | grep redstorm) ]; then
+if [ $(gem list | grep 'redstorm') ]; then
   echo -e "\e[32mredstorm currently is installed\e[0m"
 else
-  gem install redstorm
+  rbenv global ${JRUBY_VERSION}
 
-  if [ ! $(gem list | grep redstorm) ]; then
+  if [ ! $(ruby --version | grep ${JRUBY_VERSION}) ]; then
+    echo -e "\e[31mProblem ruby version, must be ${RUBY_VERSION}\e[0m"
+    exit
+  fi
+
+  sudo gem install redstorm
+
+  if [ ! $(gem list | grep 'redstorm') ]; then
     echo -e "\e[31mProblem with redstorm\e[0m"
     exit
   fi
