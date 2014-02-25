@@ -221,11 +221,25 @@ else
 fi
 
 ### JRuby ###
-if[ $(rbenv versions | grep jruby-${JRUBY_VERSION}) ]; then
+if [ $(rbenv versions | grep jruby-${JRUBY_VERSION}) ]; then
   echo -e "\e[32mjruby-${JRUBY_VERSION} currently is installed\e[0m"
 else
   rbenv install jruby-${JRUBY_VERSION}
   rbenv global jruby-${JRUBY_VERSION}
+fi
+
+### RedStorm ###
+if [ $(gem list | grep redstorm) ]; then
+  echo -e "\e[32mredstorm currently is installed\e[0m"
+else
+  gem install redstorm
+
+  if [ ! $(gem list | grep redstorm) ]; then
+    echo -e "\e[31mProblem with redstorm\e[0m"
+    exit
+  fi
+
+  echo -e "\e[32mredstorm installing succeed\e[0m"
 fi
 
 
