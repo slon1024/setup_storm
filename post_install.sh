@@ -222,7 +222,7 @@ else
 fi
 
 ### JRuby ###
-if [ $(rbenv versions | grep ${JRUBY_VERSION}) ]; then
+if [ $(rbenv versions | grep jruby) ]; then
   echo -e "\e[32mjruby-${JRUBY_VERSION} currently is installed\e[0m"
 else
   rbenv install ${JRUBY_VERSION}
@@ -235,7 +235,7 @@ if [ $(gem list | grep 'bundler') ]; then
 else
   rbenv shell ${JRUBY_VERSION}
 
-  if [ ! $(rbenv version | grep ${JRUBY_VERSION}) ]; then
+  if [ ! $(rbenv version | grep jruby) ]; then
     echo -e "\e[31mProblem ruby version, must be ${JRUBY_VERSION}\e[0m"
     exit
   fi
