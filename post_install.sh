@@ -222,27 +222,27 @@ else
 fi
 
 ### JRuby ###
-if [ $(rbenv versions | grep jruby) ]; then
-  echo -e "\e[32mjruby-${JRUBY_VERSION} currently is installed\e[0m"
+if [ "$(rbenv versions | grep ${JRUBY_VERSION})" ]; then
+  echo -e "\e[32m${JRUBY_VERSION} currently is installed\e[0m"
 else
   rbenv install ${JRUBY_VERSION}
   rbenv install ${RUBY_VERSION}
 fi
 
 ### Bunlder ###
-if [ $(gem list | grep 'bundler') ]; then
+if [ "$(gem list | grep 'bundler')" ]; then
   echo -e "\e[32mbundler currently is installed\e[0m"
 else
   rbenv shell ${JRUBY_VERSION}
 
-  if [ ! $(rbenv version | grep jruby) ]; then
+  if [ ! "$(rbenv version | grep ${JRUBY_VERSION})" ]; then
     echo -e "\e[31mProblem ruby version, must be ${JRUBY_VERSION}\e[0m"
     exit
   fi
 
   gem install bundler
 
-  if [ ! $(gem list | grep 'bundler') ]; then
+  if [ ! "$(gem list | grep 'bundler')" ]; then
     echo -e "\e[31mPlease run: gem install bundler\e[0m"
     exit
   fi
