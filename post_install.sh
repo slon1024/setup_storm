@@ -136,7 +136,7 @@ if [ ! -d jzmq ]; then
 else
   JZMQ_URI=https://github.com/nathanmarz/jzmq.git
   git clone $JZMQ_URI
-  if [ -d jzmq ]; then
+  if [ ! -d jzmq ]; then
     echo -e "\e[31mProblem with download $JZMQ_URI\e[0m"
     exit
   fi
