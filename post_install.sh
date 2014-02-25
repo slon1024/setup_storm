@@ -233,7 +233,7 @@ fi
 if [ "$(gem list | grep 'bundler')" ]; then
   echo -e "\e[32mbundler currently is installed\e[0m"
 else
-  rbenv shell ${JRUBY_VERSION}
+  rbenv local ${JRUBY_VERSION}
 
   if [ ! "$(rbenv version | grep ${JRUBY_VERSION})" ]; then
     echo -e "\e[31mProblem ruby version, must be ${JRUBY_VERSION}\e[0m"
