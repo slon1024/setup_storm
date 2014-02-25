@@ -45,7 +45,7 @@ add_var_to_path() {
   append_to_file "export $VAR_NAME" "/etc/profile"
   append_to_file 'export PATH' "/etc/profile"
 
-  . /etc/profile
+  source /etc/profile
 }
 
 sudo aptitude install -y  build-essential gcc g++ uuid-dev libtool git pkg-config autoconf
@@ -204,17 +204,19 @@ fi
 sudo aptitude install -y maven
 
 ### RbEnv ###
-if [ -d ~/.rbenv ]; then
+if [ -d ~/.rbenv ] && [ $(which rbenv) ]; then
   echo -e "\e[32mrbenv currently is installed\e[0m"
 else
   curl -L https://raw.github.com/fesplugas/rbenv-installer/master/bin/rbenv-installer | bash
-  append_to_file 'export PATH="$HOME/.rbenv/bin:$PATH"' '~/.bashrc'
-  append_to_file 'eval "$(rbenv init -)"' '~/.bashrc'
-  . ~/.bashrc
+
+  append_to_file 'export PATH="$HOME/.rbenv/bin:$PATH"' ~/.bashrc
+  append_to_file 'eval "$(rbenv init -)"' ~/.bashrc
+
+  source ~/.bashrc
 fi
 
 ### JRuby ###
-if [ $(rbenv versions | grep jruby-${JRUBY_VERSION}) ]; then
+if[ $(rbenv versions | grep jruby-${JRUBY_VERSION}) ]; then
   echo -e "\e[32mjruby-${JRUBY_VERSION} currently is installed\e[0m"
 else
   rbenv install jruby-${JRUBY_VERSION}
@@ -295,4 +297,4 @@ rm -f *.tar.gz
 rm -f *.tgz
 popd
 
-. /etc/profile
+source /etc/profile
