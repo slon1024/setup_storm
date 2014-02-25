@@ -4,6 +4,7 @@ ZOOKEEPER_VERSION=3.4.5
 ZEROMQ_VERSION=4.0.3
 STORM_VERSION=0.9.0.1
 JRUBY_VERSION=1.7.9
+RUBY_VERSION=2.0.1
 KAFKA_VERSION=0.8.0
 
 NIMBUS=nimbus1
@@ -225,6 +226,7 @@ if [ $(rbenv versions | grep jruby-${JRUBY_VERSION}) ]; then
   echo -e "\e[32mjruby-${JRUBY_VERSION} currently is installed\e[0m"
 else
   rbenv install jruby-${JRUBY_VERSION}
+  rbenv install ${RUBY_VERSION}
   rbenv global jruby-${JRUBY_VERSION}
 fi
 
