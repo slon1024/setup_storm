@@ -130,7 +130,7 @@ else
 fi
 
 ### jzmq ###
-if [ -d jzmq ]; then
+if [ ! -d jzmq ]; then
   echo -e "\e[32mjzmq currently is installed\e[0m"
 else
   JZMQ_URI=https://github.com/nathanmarz/jzmq.git
