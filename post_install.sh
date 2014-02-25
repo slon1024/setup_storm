@@ -216,7 +216,7 @@ else
   source ~/.bashrc
 
   if [ ! $(which rbenv) ]; then
-    echo -e "\e[31mProblem with rbenv\e[0m"
+    echo -e "\e[31mPlease run: source ~/.bashrc\e[0m"
     exit
   fi
 fi
@@ -227,28 +227,27 @@ if [ $(rbenv versions | grep ${JRUBY_VERSION}) ]; then
 else
   rbenv install ${JRUBY_VERSION}
   rbenv install ${RUBY_VERSION}
-  rbenv global ${JRUBY_VERSION}
 fi
 
-### RedStorm ###
-if [ $(gem list | grep 'redstorm') ]; then
-  echo -e "\e[32mredstorm currently is installed\e[0m"
+### Bunlder ###
+if [ $(gem list | grep 'bundler') ]; then
+  echo -e "\e[32mbundler currently is installed\e[0m"
 else
-  rbenv global ${JRUBY_VERSION}
+  rbenv shell ${JRUBY_VERSION}
 
   if [ ! $(rbenv version | grep ${JRUBY_VERSION}) ]; then
     echo -e "\e[31mProblem ruby version, must be ${JRUBY_VERSION}\e[0m"
     exit
   fi
 
-  sudo gem install redstorm
+  gem install bundler
 
-  if [ ! $(gem list | grep 'redstorm') ]; then
-    echo -e "\e[31mProblem with redstorm\e[0m"
+  if [ ! $(gem list | grep 'bundler') ]; then
+    echo -e "\e[31mPlease run: gem install bundler\e[0m"
     exit
   fi
 
-  echo -e "\e[32mredstorm installing succeed\e[0m"
+  echo -e "\e[32mbundler installing succeed\e[0m"
 fi
 
 
