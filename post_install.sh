@@ -236,8 +236,8 @@ if [ $(gem list | grep 'redstorm') ]; then
 else
   rbenv global ${JRUBY_VERSION}
 
-  if [ ! $(ruby --version | grep ${JRUBY_VERSION}) ]; then
-    echo -e "\e[31mProblem ruby version, must be ${RUBY_VERSION}\e[0m"
+  if [ ! $(rbenv version | grep ${JRUBY_VERSION}) ]; then
+    echo -e "\e[31mProblem ruby version, must be ${JRUBY_VERSION}\e[0m"
     exit
   fi
 
