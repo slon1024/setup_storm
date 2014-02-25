@@ -213,6 +213,9 @@ else
   append_to_file 'export PATH="$HOME/.rbenv/bin:$PATH"' ~/.bashrc
   append_to_file 'eval "$(rbenv init -)"' ~/.bashrc
 
+  export PATH="$HOME/.rbenv/bin:$PATH"
+  eval "$(rbenv init -)"
+
   source ~/.bashrc
 
   if [ ! $(which rbenv) ]; then
