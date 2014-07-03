@@ -1,6 +1,9 @@
 Setup storm
 =========
 
+## Another repo where is setup the storm [cluster].
+
+
 Installing [storm] using vagrant.  
 [Vagrant] allows:
 > Create and configure lightweight,
@@ -47,3 +50,4 @@ kafka-console-consumer.sh --zookeeper localhost:2181 --topic test --from-beginni
 [VirtualBox]:https://www.virtualbox.org/
 [storm]:http://storm.incubator.apache.org/
 [vagrant]:http://www.vagrantup.com/
+[cluster]:https://github.com/slon1024/vagrant-cluster-storm
